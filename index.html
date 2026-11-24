@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Revision Pack - Complete Interactive Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark-gold: #b8860b;
+            --soft-bg: #fdfbf7;
+            --text-dark: #2c3e50;
+            --correct-green: #27ae60;
+            --incorrect-red: #c0392b;
+        }
+
+        body {
+            font-family: 'Poppins', 'Cairo', sans-serif;
+            background-color: var(--soft-bg);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='%23d4af37' fill-opacity='0.04'%3E%3Cpath d='M50 0L100 50L50 100L0 50z'/%3E%3Cpath d='M50 15L85 50L50 85L15 50z'/%3E%3Cpath d='M50 30L70 50L50 70L30 50z'/%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        .container { max-width: 950px; margin: 0 auto; padding: 20px; }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f2e6 100%);
+            border-bottom: 3px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='none' stroke='%23d4af37' stroke-opacity='0.1' stroke-width='1'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--dark-gold);
+            margin: 0 0 10px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .omar-font {
+            font-family: 'Aref Ruqaa', 'Amiri', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            display: inline-block;
+            white-space: nowrap;
+            background: linear-gradient(90deg, #FFD700, #FF8C00, #D2691E, #FFD700);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 140, 0, 0.2);
+            animation: shine 3s linear infinite;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Topic Navigation */
+        .topic-nav {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .topic-nav summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark-gold);
+            font-size: 1.1rem;
+            padding: 5px;
+        }
+
+        .topic-nav ul {
+            list-style: none;
+            padding: 10px 0 0 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 8px;
+        }
+
+        .topic-nav a {
+            display: block;
+            padding: 8px 12px;
+            background: #f9f6ee;
+            border-radius: 6px;
+            color: var(--dark-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--gold);
+            transition: all 0.2s;
+        }
+
+        .topic-nav a:hover { background: #f0e9d2; transform: translateX(3px); }
+
+        /* Topic Sections */
+        .topic-section { margin-bottom: 40px; scroll-margin-top: 20px; }
+
+        .topic-title {
+            font-size: 1.5rem;
+            color: var(--dark-gold);
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topic-title::before { content: "✦"; color: var(--gold); }
+
+        .topic-summary {
+            background: #fffef5;
+            border-left: 4px solid var(--gold);
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* Question Boxes */
+        .q-box {
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: transform 0.2s ease;
+            position: relative;
+        }
+
+        .q-box:hover { transform: translateY(-3px); }
+
+        .bg-1 { background: linear-gradient(135deg, #f8f9fb 0%, #eef1f5 100%); }
+        .bg-2 { background: linear-gradient(135deg, #fdfcfb 0%, #f5ece1 100%); }
+        .bg-3 { background: linear-gradient(135deg, #f3ecfc 20%, #e8f1fc 100%); }
+        .bg-4 { background: linear-gradient(135deg, #eafbe0 20%, #d4f0d9 100%); }
+        .bg-5 { background: linear-gradient(135deg, #fff3e6 0%, #fce4d6 100%); }
+        .bg-6 { background: linear-gradient(135deg, #e6f0fb 20%, #d6e8f8 100%); }
+
+        .q-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1a252f;
+        }
+
+        /* Lighter keyword highlighting */
+        .keyword {
+            background: rgba(255, 235, 150, 0.55);
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-weight: 700;
+            color: #5d4037;
+            border-bottom: 1px dashed #c9a227;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.75);
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .option-label:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--gold);
+        }
+
+        .option-label input {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--gold);
+        }
+
+        .check-btn {
+            background: var(--dark-gold);
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .check-btn:hover { background: #997a00; }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .feedback.correct {
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            color: #1b5e20;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: #ffebee;
+            border: 1px solid #ef9a9a;
+            color: #b71c1c;
+            display: block;
+        }
+
+        .feedback strong { display: block; margin-bottom: 5px; font-size: 1.1rem; }
+
+        /* Summary Section */
+        #summary-section {
+            display: none;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f2e6 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 40px;
+        }
+
+        #summary-section h2 {
+            color: var(--dark-gold);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(var(--gold) var(--progress), #e0e0e0 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .score-text {
+            position: relative;
+            z-index: 1;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-gold);
+        }
+
+        .summary-msg {
+            font-size: 1.2rem;
+            color: #555;
+            margin-top: 20px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* Floating summary button */
+        .floating-summary {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: var(--dark-gold);
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4);
+            z-index: 100;
+            display: none;
+        }
+
+        .floating-summary:hover { background: #997a00; }
+
+        @media (max-width: 600px) {
+            .options { grid-template-columns: 1fr; }
+            .omar-font { font-size: 2rem; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>English Revision Pack — Complete Interactive Quiz</h1>
+        <div class="omar-font">أ. إسلام صابر</div>
+        <div class="subtitle">Self-Correcting Quiz with Immediate Feedback | اختبار تفاعلي مع التصحيح الفوري</div>
+    </header>
+
+    <details class="topic-nav" open>
+        <summary>📚 Jump to a Topic | انتقل إلى موضوع</summary>
+        <ul id="topic-list"></ul>
+    </details>
+
+    <main id="quiz-container"></main>
+
+    <div id="summary-section">
+        <h2>Quiz Summary | ملخص النتيجة</h2>
+        <div class="score-circle" id="score-circle">
+            <span class="score-text" id="score-text">0/0</span>
+        </div>
+        <div class="summary-msg" id="summary-msg"></div>
+        <button class="check-btn" style="margin-top:20px; background:#27ae60;" onclick="location.reload()">Restart Quiz | إعادة الاختبار</button>
+    </div>
+</div>
+
+<button class="floating-summary" id="floating-summary" onclick="document.getElementById('summary-section').scrollIntoView({behavior:'smooth'})">
+    📊 View Summary
+</button>
+
+<script>
+    // ============ TOPIC SUMMARIES ============
+    const topicSummaries = {
+        "1. Comparatives and descriptions": "Use comparative adjectives (taller than, older than) to compare two things. Match question words to measurements: How tall? (height), How heavy? (weight), How long? (length), How old? (age).",
+        "2. Present simple": "Use for habits, routines and facts. Add -s/-es with he/she/it. Use do/does in questions and don't/doesn't in negatives. Time markers: every Friday, on Mondays.",
+        "3. Present continuous": "Use am/is/are + verb-ing for actions happening now. Marker: at the moment.",
+        "4. Past simple": "Use for completed past actions. Regular verbs take -ed; irregulars: go→went, drive→drove, fly→flew, be→was/were. Markers: yesterday, last week, two days ago.",
+        "5. Future: will and going to": "Use 'be going to' for plans. Use 'will' for predictions/decisions. Don't combine will with -s or past forms.",
+        "6. Be: am, is, are, was, were": "Match the form to subject and time. Present: I am, he/she/it is, you/we/they are. Past: I/he/she/it was; you/we/they were.",
+        "7. Questions and question words": "What (things), Where (place), When (time), Why (reason), How often (frequency), How many/much (quantity), How old (age), Whose (ownership).",
+        "8. Pronouns and possessives": "Subject: I, you, he, she, it, we, they. Object: me, you, him, her, it, us, them. Possessive adj (before noun): my, your, his, her, our, their. Possessive pronoun (standalone): mine, yours, ours, theirs.",
+        "9. Reflexive pronouns": "Use when subject and object are the same: myself, yourself, himself, herself, itself, ourselves, yourselves, themselves.",
+        "10. Articles, quantifiers and countability": "Some (affirmative), any (questions/negatives). Much + uncountable, many + plural countable. A/an + singular countable.",
+        "11. Prepositions of time and place": "At + clock times. On + days and surfaces. In + enclosed spaces and longer periods. For + purpose (meat for dinner).",
+        "12. There is / There are": "There is + singular. There are + plural.",
+        "13. Adjectives, adverbs and linking words": "Adjectives describe nouns or follow linking verbs (look, feel, taste). Use 'and' to add, 'but' for contrast, 'because' for reason.",
+        "14. Modals and ability/advice": "Can = ability, can't = inability. Should = advice. Modal + base verb.",
+        "15. Tag questions": "Positive statement → negative tag. Negative statement → positive tag. Match auxiliary and pronoun.",
+        "16. Superlatives": "The + adjective-est OR the most + adjective for the top degree in a group.",
+        "17. Vocabulary and everyday language": "Family, places, rooms, clothing, transport, weather, food, common actions.",
+        "18. Numbers, dates, time and calendar": "Numbers in words ↔ figures. Days, months, seasons, before/after, clock times, a.m./p.m.",
+        "19. Sentence order and basic word forms": "Subject + verb + object. Do/Does + subject + base verb in questions. Want + to + base verb. Preposition + gerund.",
+        "20. Reading and listening skills": "Identify grammar clues, time expressions, subject-verb agreement, and key words about people, places, actions, numbers and dates."
+    };
+
+    // ============ QUIZ DATA — ALL QUESTIONS ORGANIZED BY TOPIC ============
+    const quizData = [
+        // ===== TOPIC 1: Comparatives and descriptions =====
+        { topic: "1. Comparatives and descriptions", text: "Ahmed is 165 cm tall and Omar is 180 cm tall. Choose the correct sentence.", keywords: ["165 cm", "180 cm", "tall"], options: ["Ahmed is taller than Omar.", "Omar is taller than Ahmed."], correct: 1, fbCorrect: "الإجابة صحيحة! لأن عمر طوله 180 سم وهو أطول من أحمد (165 سم)، لذا نستخدم (taller than) مع عمر.", fbIncorrect: "إجابة خاطئة. عمر أطول من أحمد، لذا الفاعل يجب أن يكون عمر ويأتي بعده (taller than)." },
+        { topic: "1. Comparatives and descriptions", text: "Ahmed is 16 years old and Omar is 18 years old. Choose the correct sentence.", keywords: ["16 years", "18 years"], options: ["Ahmed is older than Omar.", "Omar is older than Ahmed."], correct: 1, fbCorrect: "صحيح! الأرقام تخص العمر، وعمر أكبر سناً، لذا نستخدم (older than) مع عمر.", fbIncorrect: "إجابة خاطئة. الأرقام تخص العمر، وعمر هو الأكبر، لذا الصحيح (Omar is older than Ahmed)." },
+        { topic: "1. Comparatives and descriptions", text: "\"How _____ is your brother?\" \"82 kg.\"", keywords: ["82 kg"], options: ["heavy", "tall", "wide", "long"], correct: 0, fbCorrect: "ممتاز! الكيلوجرام يقيس الوزن، لذا نستخدم (How heavy).", fbIncorrect: "إجابة خاطئة. 82 kg وحدة وزن، والسؤال عن الوزن يكون بـ (How heavy)." },
+        { topic: "1. Comparatives and descriptions", text: "\"How _____ is that table?\" \"About 3 m.\"", keywords: ["3 m"], options: ["much", "long", "far", "heavy"], correct: 1, fbCorrect: "صحيح! المتر يقيس الطول، لذا نستخدم (How long).", fbIncorrect: "إجابة خاطئة. 3 m وحدة طول، والسؤال عن الطول يكون بـ (How long)." },
+        { topic: "1. Comparatives and descriptions", text: "Omar is seventeen. Ahmed is sixteen. Choose the correct sentence.", keywords: ["seventeen", "sixteen"], options: ["Omar is taller than Ahmed.", "Omar is older than Ahmed.", "Omar is the same age as Ahmed.", "Omar is younger than Ahmed."], correct: 1, fbCorrect: "إجابة صحيحة! السؤال يتحدث عن العمر (17 و 16)، لذا نستخدم (older than).", fbIncorrect: "إجابة خاطئة. الأرقام تخص العمر وليس الطول، لذا الكلمة الصحيحة (older than)." },
+        { topic: "1. Comparatives and descriptions", text: "Ali is 15 and Ahmed is 18. Choose the correct sentence.", keywords: ["15", "18"], options: ["Ali and Ahmed are the same age.", "Ali is older than Ahmed.", "Ahmed is older than Ali.", "Ahmed is old."], correct: 2, fbCorrect: "ممتاز! أحمد عمره 18 وعلي 15، فأحمد أكبر، لذا (Ahmed is older than Ali).", fbIncorrect: "إجابة خاطئة. أحمد (18) أكبر من علي (15)، لذا الصحيح (Ahmed is older than Ali)." },
+        { topic: "1. Comparatives and descriptions", text: "How _____ is this table? — It is 3 m.", keywords: ["3 m"], options: ["much", "tall", "long", "many"], correct: 2, fbCorrect: "صحيح! المتر لقياس الطول، فنستخدم (How long).", fbIncorrect: "إجابة خاطئة. 3 m يدل على الطول، لذا السؤال بـ (How long)." },
+        { topic: "1. Comparatives and descriptions", text: "How _____ is he? — It is 19 years.", keywords: ["19 years"], options: ["much", "old", "long", "many"], correct: 1, fbCorrect: "ممتاز! السنوات تقيس العمر، لذا (How old).", fbIncorrect: "إجابة خاطئة. 19 years تخص العمر، والسؤال بـ (How old)." },
+
+        // ===== TOPIC 2: Present simple =====
+        { topic: "2. Present simple", text: "Mohammed _____ to the beach with his friends every Friday.", keywords: ["every Friday"], options: ["is going", "don't go", "go", "goes"], correct: 3, fbCorrect: "ممتاز! الجملة في المضارع البسيط وتدل عليها (every Friday)، والفاعل مفرد لذا نضيف s.", fbIncorrect: "إجابة خاطئة. مع الفاعل المفرد الغائب في المضارع البسيط نضيف s للفعل، لذا (goes)." },
+        { topic: "2. Present simple", text: "\"Where does he live?\" \"He _____ in Japan.\"", keywords: ["does he live"], options: ["living", "lived", "lives", "live"], correct: 2, fbCorrect: "صحيح! السؤال في المضارع البسيط، والإجابة بنفس الزمن مع he + lives.", fbIncorrect: "إجابة خاطئة. السؤال في المضارع البسيط، لذا الإجابة (lives) مع he." },
+        { topic: "2. Present simple", text: "Sue _____ in her room.", keywords: ["Sue"], options: ["study", "studies", "is study", "studying"], correct: 1, fbCorrect: "ممتاز! Sue فاعل مفرد، لذا نضيف s/es للفعل في المضارع البسيط: studies.", fbIncorrect: "إجابة خاطئة. Sue مفرد، لذا الفعل يأخذ s: studies." },
+        { topic: "2. Present simple", text: "Walt eats fruit _____ day.", keywords: ["eats"], options: ["noon", "before", "late", "every"], correct: 3, fbCorrect: "صحيح! (every day) تعبير يدل على عادة في المضارع البسيط.", fbIncorrect: "إجابة خاطئة. العبارة الصحيحة هي (every day) التي تدل على عادة يومية." },
+        { topic: "2. Present simple", text: "The children _____ coffee.", keywords: ["children"], options: ["do drink not", "drink don't", "don't drink", "no drink"], correct: 2, fbCorrect: "ممتاز! النفي في المضارع البسيط مع جمع يكون بـ don't + المصدر.", fbIncorrect: "إجابة خاطئة. النفي الصحيح مع الجمع هو (don't drink)." },
+        { topic: "2. Present simple", text: "Tim: _____ to school on Saturday? Pat: No, he doesn't.", keywords: ["doesn't"], options: ["He does go", "Does he go", "Go does he", "He go does"], correct: 1, fbCorrect: "صحيح! السؤال في المضارع البسيط يبدأ بـ Does + فاعل + مصدر.", fbIncorrect: "إجابة خاطئة. ترتيب السؤال: Does + he + go." },
+        { topic: "2. Present simple", text: "Tim: What _____? Pat: His lesson.", keywords: ["What"], options: ["does Bart study", "Bart studies", "Bart does study", "studies Bart"], correct: 0, fbCorrect: "ممتاز! ترتيب السؤال: أداة استفهام + does + فاعل + مصدر.", fbIncorrect: "إجابة خاطئة. الترتيب الصحيح: What + does + Bart + study." },
+        { topic: "2. Present simple", text: "Ben watches TV 3 or 4 days in a week. He _____ watches TV.", keywords: ["3 or 4 days"], options: ["never", "sometimes", "always", "every"], correct: 1, fbCorrect: "صحيح! 3 أو 4 أيام تعني أحياناً (sometimes).", fbIncorrect: "إجابة خاطئة. 3-4 أيام في الأسبوع تعني أحياناً (sometimes) وليس دائماً أو أبداً." },
+        { topic: "2. Present simple", text: "Tim: _____ does he go to the library? Pat: 2 days a week.", keywords: ["2 days a week"], options: ["What", "How many", "How often", "Every"], correct: 2, fbCorrect: "ممتاز! الإجابة عن التكرار (2 days a week) تكون بـ (How often).", fbIncorrect: "إجابة خاطئة. السؤال عن التكرار (كم مرة) يكون بـ (How often)." },
+        { topic: "2. Present simple", text: "The students _____ the answer.", keywords: ["students"], options: ["know", "drive", "work", "shave"], correct: 0, fbCorrect: "صحيح! المعنى المناسب: الطلاب يعرفون الإجابة (know).", fbIncorrect: "إجابة خاطئة. السياق يتطلب (know) أي يعرفون." },
+        { topic: "2. Present simple", text: "Ali _____ to Jeddah every vacation.", keywords: ["every vacation"], options: ["drives", "drove", "will drive", "drive"], correct: 0, fbCorrect: "ممتاز! (every vacation) تدل على عادة، والفاعل مفرد، لذا (drives).", fbIncorrect: "إجابة خاطئة. مع العادة (every vacation) والفاعل المفرد نستخدم (drives)." },
+        { topic: "2. Present simple", text: "Mohammed _____ to the sea and his friend every holiday.", keywords: ["every holiday"], options: ["is going", "go", "goes", "were"], correct: 2, fbCorrect: "صحيح! (every holiday) تدل على المضارع البسيط، والفاعل مفرد، لذا (goes).", fbIncorrect: "إجابة خاطئة. مع (every holiday) والفاعل المفرد نستخدم (goes)." },
+        { topic: "2. Present simple", text: "Did the students _____ a question last week?", keywords: ["Did", "last week"], options: ["ask", "asked", "knew", "answered"], correct: 0, fbCorrect: "ممتاز! بعد Did نستخدم الفعل في مصدره بدون تصريف: ask.", fbIncorrect: "إجابة خاطئة. بعد Did يأتي الفعل في مصدره: ask." },
+        { topic: "2. Present simple", text: "She _____ love swimming.", keywords: ["love"], options: ["hasn't", "wasn't", "don't", "doesn't"], correct: 3, fbCorrect: "صحيح! النفي مع she في المضارع البسيط يكون بـ doesn't.", fbIncorrect: "إجابة خاطئة. النفي مع she في المضارع البسيط يكون بـ (doesn't)." },
+
+        // ===== TOPIC 3: Present continuous =====
+        { topic: "3. Present continuous", text: "Ali _____ dinner at the moment.", keywords: ["at the moment"], options: ["ate", "eats", "eat", "is eating"], correct: 3, fbCorrect: "صحيح! (at the moment) تدل على المضارع المستمر: is + ing.", fbIncorrect: "إجابة خاطئة. (at the moment) تعني الآن، لذا نستخدم (is eating)." },
+        { topic: "3. Present continuous", text: "He is _____ TV.", keywords: ["is"], options: ["watching", "watches", "watch", "—"], correct: 0, fbCorrect: "ممتاز! بعد is نستخدم الفعل بصيغة ing للمضارع المستمر.", fbIncorrect: "إجابة خاطئة. بعد is في المضارع المستمر نضع الفعل + ing: watching." },
+
+        // ===== TOPIC 4: Past simple =====
+        { topic: "4. Past simple", text: "Abdullah visited his friend _____.", keywords: ["visited"], options: ["now", "on Tuesday", "next week", "soon"], correct: 1, fbCorrect: "صحيح! الفعل في الماضي (visited)، لذا نختار ماضي: (on Tuesday).", fbIncorrect: "إجابة خاطئة. الفعل ماضي، لذا نختار زمن ماضي مثل (on Tuesday)." },
+        { topic: "4. Past simple", text: "The students _____ happy yesterday.", keywords: ["yesterday"], options: ["have been", "were", "are", "will be"], correct: 1, fbCorrect: "ممتاز! (yesterday) تدل على الماضي، والجمع مع was/were يكون (were).", fbIncorrect: "إجابة خاطئة. مع yesterday والفاعل الجمع نستخدم (were)." },
+        { topic: "4. Past simple", text: "Zelda was in class two days _____.", keywords: ["was", "two days"], options: ["when", "next", "last", "ago"], correct: 3, fbCorrect: "صحيح! (two days ago) تعبير ماضي يعني 'قبل يومين'.", fbIncorrect: "إجابة خاطئة. التعبير الصحيح للماضي هو (two days ago)." },
+        { topic: "4. Past simple", text: "He _____ in the classroom yesterday.", keywords: ["yesterday"], options: ["was", "is", "are", "were"], correct: 0, fbCorrect: "ممتاز! he مع الماضي تأخذ (was).", fbIncorrect: "إجابة خاطئة. he في الماضي تأخذ (was)." },
+        { topic: "4. Past simple", text: "_____ on the base yesterday?", keywords: ["yesterday"], options: ["They were", "Was they", "They are", "Were they"], correct: 3, fbCorrect: "صحيح! السؤال في الماضي مع they يبدأ بـ Were they.", fbIncorrect: "إجابة خاطئة. السؤال الماضي مع they: Were they." },
+        { topic: "4. Past simple", text: "We _____ in lab yesterday.", keywords: ["yesterday"], options: ["wasn't", "weren't", "aren't", "isn't"], correct: 1, fbCorrect: "ممتاز! we في الماضي تأخذ were، والنفي weren't.", fbIncorrect: "إجابة خاطئة. we في الماضي تأخذ weren't." },
+        { topic: "4. Past simple", text: "Ali and Ahmed _____ to Jeddah yesterday.", keywords: ["yesterday"], options: ["drives", "drove", "will drive", "drive"], correct: 1, fbCorrect: "صحيح! (yesterday) تدل على الماضي، والتصريف الثاني لـ drive هو drove.", fbIncorrect: "إجابة خاطئة. الماضي من drive هو drove." },
+        { topic: "4. Past simple", text: "Hend _____ to Jeddah two days ago.", keywords: ["two days ago"], options: ["flies", "flying", "flew", "to fly"], correct: 2, fbCorrect: "ممتاز! (two days ago) تدل على الماضي، والتصريف الثاني لـ fly هو flew.", fbIncorrect: "إجابة خاطئة. الماضي من fly هو flew." },
+
+        // ===== TOPIC 5: Future: will and going to =====
+        { topic: "5. Future: will and going to", text: "Talal is going to see his brother _____.", keywords: ["is going to"], options: ["yesterday", "on Thursday", "last week", "already"], correct: 1, fbCorrect: "صحيح! (is going to) تدل على المستقبل، لذا نختار (on Thursday).", fbIncorrect: "إجابة خاطئة. (is going to) للمستقبل، لذا نختار (on Thursday)." },
+        { topic: "5. Future: will and going to", text: "Talal _____ to visit his uncle tomorrow.", keywords: ["tomorrow"], options: ["would", "is going", "should"], correct: 1, fbCorrect: "ممتاز! (is going to) تعبر عن خطة مستقبلية مع tomorrow.", fbIncorrect: "إجابة خاطئة. للتعبير عن خطة مستقبلية نستخدم (is going to)." },
+        { topic: "5. Future: will and going to", text: "Talal was born in 2000. He _____ thirty in 2030.", keywords: ["in 2030"], options: ["will be", "has been", "will", "was"], correct: 0, fbCorrect: "صحيح! توقع في المستقبل: will be.", fbIncorrect: "إجابة خاطئة. المستقبل يحتاج (will be) للتعبير عن 'سيكون'.", },
+        { topic: "5. Future: will and going to", text: "Ali and Ahmed _____ to Jeddah tomorrow.", keywords: ["tomorrow"], options: ["drives", "drove", "will drive", "drive"], correct: 2, fbCorrect: "ممتاز! (tomorrow) تدل على المستقبل، لذا (will drive).", fbIncorrect: "إجابة خاطئة. مع tomorrow نستخدم (will drive)." },
+        { topic: "5. Future: will and going to", text: "My father will _____ me at the airport tomorrow.", keywords: ["will", "tomorrow"], options: ["pick up", "picks up", "picked up", "pick me up"], correct: 3, fbCorrect: "صحيح! بعد will نضع المصدر، والضمير me يأتي بين الفعل وحرف الجر: pick me up.", fbIncorrect: "إجابة خاطئة. الترتيب الصحيح: will + pick + me + up." },
+        { topic: "5. Future: will and going to", text: "I am going to visit my uncle _____.", keywords: ["am going to"], options: ["tomorrow", "now", "yesterday"], correct: 0, fbCorrect: "ممتاز! (am going to) للمستقبل، لذا (tomorrow).", fbIncorrect: "إجابة خاطئة. (am going to) تدل على المستقبل، فنختار (tomorrow)." },
+
+        // ===== TOPIC 6: Be: am, is, are, was, were =====
+        { topic: "6. Be: am, is, are, was, were", text: "\"What _____ Saleh and Omar like?\" \"They are thin.\"", keywords: ["Saleh and Omar"], options: ["is", "are", "did", "do"], correct: 1, fbCorrect: "صحيح! الفاعل جمع (Saleh and Omar)، لذا نستخدم (are).", fbIncorrect: "إجابة خاطئة. الفاعل جمع، لذا نستخدم (are)." },
+        { topic: "6. Be: am, is, are, was, were", text: "\"Is Saudi Arabia a city?\" \"No, _____ a country.\"", keywords: ["Saudi Arabia"], options: ["it isn't", "is", "it's", "is it"], correct: 2, fbCorrect: "ممتاز! الإجابة تحتاج فاعل وفعل: it is → it's.", fbIncorrect: "إجابة خاطئة. نحتاج (it's) أي (it is).", },
+        { topic: "6. Be: am, is, are, was, were", text: "There _____ a book on the table.", keywords: ["a book"], options: ["were", "is", "does", "are"], correct: 1, fbCorrect: "صحيح! (a book) مفرد، لذا (There is).", fbIncorrect: "إجابة خاطئة. مع المفرد نستخدم (There is)." },
+        { topic: "6. Be: am, is, are, was, were", text: "I _____ sharing my room with my brothers when I was young.", keywords: ["I", "when I was young"], options: ["were", "was", "am", "is"], correct: 1, fbCorrect: "ممتاز! I في الماضي تأخذ (was).", fbIncorrect: "إجابة خاطئة. I في الماضي تأخذ (was)." },
+        { topic: "6. Be: am, is, are, was, were", text: "Where _____ your daughter born?", keywords: ["daughter"], options: ["were", "was", "is", "has"], correct: 1, fbCorrect: "صحيح! (your daughter) مفرد، ومع born نستخدم الماضي (was).", fbIncorrect: "إجابة خاطئة. المفرد في الماضي يأخذ (was)." },
+
+        // ===== TOPIC 7: Questions and question words =====
+        { topic: "7. Questions and question words", text: "When do you have breakfast?", keywords: ["breakfast"], options: ["At 7 p.m.", "At 7 a.m.", "At 1 p.m."], correct: 1, fbCorrect: "ممتاز! الإفطار يكون صباحاً (7 a.m.).", fbIncorrect: "إجابة خاطئة. الإفطار صباحاً، لذا (At 7 a.m.)." },
+        { topic: "7. Questions and question words", text: "\"_____ did he go?\" \"He went at 6 o'clock.\"", keywords: ["at 6 o'clock"], options: ["How", "Where", "When", "Why"], correct: 2, fbCorrect: "صحيح! الإجابة عن وقت، لذا (When).", fbIncorrect: "إجابة خاطئة. الإجابة عن الوقت تكون بـ (When)." },
+        { topic: "7. Questions and question words", text: "How much are the tomatoes?", keywords: ["How much"], options: ["There are five.", "5 riyals a kilo.", "In the supermarket.", "Red and yellow."], correct: 1, fbCorrect: "ممتاز! (How much) يسأل عن السعر، والإجابة (5 riyals a kilo).", fbIncorrect: "إجابة خاطئة. (How much) يسأل عن السعر، لذا (5 riyals a kilo)." },
+        { topic: "7. Questions and question words", text: "How _____ milk did Omar drink?", keywords: ["milk"], options: ["many", "much", "most", "more"], correct: 1, fbCorrect: "صحيح! (milk) غير معدود، لذا (How much).", fbIncorrect: "إجابة خاطئة. الحليب غير معدود، لذا (How much)." },
+        { topic: "7. Questions and question words", text: "\"_____ car is that?\" \"It's Omar's.\"", keywords: ["Omar's"], options: ["Who is", "Whose is", "Who", "Whose"], correct: 3, fbCorrect: "ممتاز! (Whose) يسأل عن الملكية.", fbIncorrect: "إجابة خاطئة. السؤال عن الملكية يكون بـ (Whose)." },
+        { topic: "7. Questions and question words", text: "What's the time, please?", keywords: ["time"], options: ["It's 3478.", "It's a clock.", "It's six o'clock.", "No, it isn't."], correct: 2, fbCorrect: "صحيح! السؤال عن الوقت، والإجابة (It's six o'clock).", fbIncorrect: "إجابة خاطئة. السؤال عن الوقت، والإجابة المناسبة (It's six o'clock)." },
+        { topic: "7. Questions and question words", text: "\"Why can't you drive a car?\" \"_____ I don't have a driving licence.\"", keywords: ["Why"], options: ["Because", "But", "So", "Also"], correct: 0, fbCorrect: "ممتاز! (Why) يسأل عن السبب، والإجابة بـ (Because).", fbIncorrect: "إجابة خاطئة. (Why) يجاب بـ (Because)." },
+        { topic: "7. Questions and question words", text: "Where's Omar?", keywords: ["Where"], options: ["He's fine.", "He's a doctor.", "He's in the house.", "He's my father."], correct: 2, fbCorrect: "صحيح! (Where) يسأل عن المكان، والإجابة (in the house).", fbIncorrect: "إجابة خاطئة. (Where) يسأل عن المكان، لذا (in the house)." },
+        { topic: "7. Questions and question words", text: "Who's repairing the motorbike?", keywords: ["Who"], options: ["It's broken.", "It's in the garage.", "It's red.", "It's Omar."], correct: 3, fbCorrect: "ممتاز! (Who) يسأل عن الشخص، والإجابة (It's Omar).", fbIncorrect: "إجابة خاطئة. (Who) يسأل عن الشخص، لذا (It's Omar)." },
+        { topic: "7. Questions and question words", text: "How old is he?", keywords: ["How old"], options: ["He is from Dammam.", "He has twenty.", "He is twenty-two.", "He is thin."], correct: 2, fbCorrect: "صحيح! (How old) يسأل عن العمر، والإجابة (He is twenty-two).", fbIncorrect: "إجابة خاطئة. (How old) يسأل عن العمر، لذا (He is twenty-two)." },
+        { topic: "7. Questions and question words", text: "Tim: What _____ eat? Pat: A salad.", keywords: ["What"], options: ["want you", "do you want to", "you want", "do you want do"], correct: 1, fbCorrect: "ممتاز! ترتيب السؤال: What + do + you + want + to + verb.", fbIncorrect: "إجابة خاطئة. الترتيب الصحيح: What do you want to eat?" },
+        { topic: "7. Questions and question words", text: "_____ did you go to Jeddah? — Yesterday.", keywords: ["Yesterday"], options: ["who", "where", "who", "when"], correct: 3, fbCorrect: "صحيح! الإجابة عن وقت (Yesterday)، لذا (When).", fbIncorrect: "إجابة خاطئة. الإجابة عن الوقت تكون بـ (When)." },
+        { topic: "7. Questions and question words", text: "When do you eat dinner?", keywords: ["dinner"], options: ["at 7:00 p.m.", "at 7:00 a.m.", "at 1:00 a.m.", "at 1:00 p.m."], correct: 0, fbCorrect: "ممتاز! العشاء يكون مساءً (7:00 p.m.).", fbIncorrect: "إجابة خاطئة. العشاء مساءً، لذا (at 7:00 p.m.)." },
+
+        // ===== TOPIC 8: Pronouns and possessives =====
+        { topic: "8. Pronouns and possessives", text: "Can I have _____ pencils, please?", keywords: ["pencils"], options: ["some", "an", "any", "a"], correct: 0, fbCorrect: "صحيح! في الطلبات نستخدم (some).", fbIncorrect: "إجابة خاطئة. في الطلبات نستخدم (some) وليس (any)." },
+        { topic: "8. Pronouns and possessives", text: "There are a lot of pencils in _____ bag.", keywords: ["bag"], options: ["us", "we", "our", "ours"], correct: 2, fbCorrect: "ممتاز! قبل الاسم نضع صفة الملكية (our).", fbIncorrect: "إجابة خاطئة. قبل الاسم نضع صفة الملكية (our)." },
+        { topic: "8. Pronouns and possessives", text: "\"What colour are your pencils?\" \"_____ are brown.\"", keywords: ["pencils"], options: ["They", "There", "Them", "Their"], correct: 0, fbCorrect: "صحيح! نحتاج ضمير فاعل للجمع: They.", fbIncorrect: "إجابة خاطئة. نحتاج ضمير فاعل للجمع: They." },
+        { topic: "8. Pronouns and possessives", text: "Do these people have _____ tickets?", keywords: ["tickets"], options: ["theirs", "their", "them", "they"], correct: 1, fbCorrect: "ممتاز! قبل الاسم نضع صفة الملكية (their).", fbIncorrect: "إجابة خاطئة. قبل الاسم نضع (their)." },
+        { topic: "8. Pronouns and possessives", text: "Where are Omar and Ali? I can't see _____.", keywords: ["see"], options: ["there", "them", "they", "their"], correct: 1, fbCorrect: "صحيح! بعد الفعل نضع ضمير المفعول: them.", fbIncorrect: "إجابة خاطئة. بعد الفعل نضع ضمير المفعول: them." },
+        { topic: "8. Pronouns and possessives", text: "The students forgot _____ books in the classroom.", keywords: ["books"], options: ["they", "theirs", "them", "their"], correct: 3, fbCorrect: "ممتاز! قبل الاسم نضع صفة الملكية (their).", fbIncorrect: "إجابة خاطئة. قبل الاسم نضع (their)." },
+        { topic: "8. Pronouns and possessives", text: "Mary invites _____ friends to the party.", keywords: ["friends"], options: ["his", "hers", "she", "her"], correct: 3, fbCorrect: "صحيح! Mary أنثى، قبل الاسم نضع (her).", fbIncorrect: "إجابة خاطئة. Mary أنثى، وقبل الاسم نضع (her)." },
+        { topic: "8. Pronouns and possessives", text: "This car is _____.", keywords: ["car"], options: ["we", "ours", "me", "her"], correct: 1, fbCorrect: "ممتاز! بعد is بدون اسم نستخدم ضمير الملكية standalone: ours.", fbIncorrect: "إجابة خاطئة. بعد is بدون اسم نستخدم (ours)." },
+        { topic: "8. Pronouns and possessives", text: "I can't find my books. Have you seen _____?", keywords: ["books"], options: ["them", "they", "it", "its"], correct: 0, fbCorrect: "صحيح! books جمع، وبعد الفعل نضع (them).", fbIncorrect: "إجابة خاطئة. books جمع، وبعد الفعل نضع (them)." },
+        { topic: "8. Pronouns and possessives", text: "There are a lot of pencils in _____ bag.", keywords: ["bag"], options: ["our", "ours", "we", "they"], correct: 0, fbCorrect: "ممتاز! قبل الاسم نضع صفة الملكية (our).", fbIncorrect: "إجابة خاطئة. قبل الاسم نضع (our)." },
+        { topic: "8. Pronouns and possessives", text: "Do these people have _____ tickets?", keywords: ["tickets"], options: ["theirs", "their", "them", "they"], correct: 1, fbCorrect: "صحيح! قبل الاسم نضع صفة الملكية (their).", fbIncorrect: "إجابة خاطئة. قبل الاسم نضع (their)." },
+
+        // ===== TOPIC 9: Reflexive pronouns =====
+        { topic: "9. Reflexive pronouns", text: "Bob does his homework _____.", keywords: ["Bob", "his homework"], options: ["himself", "mself", "herself", "yourself"], correct: 0, fbCorrect: "ممتاز! الفاعل Bob والمفعول لنفسه، لذا (himself).", fbIncorrect: "إجابة خاطئة. Bob مفرد مذكر، والضمير الانعكاسي (himself)." },
+
+        // ===== TOPIC 10: Articles, quantifiers and countability =====
+        { topic: "10. Articles, quantifiers and countability", text: "How _____ milk did Omar drink?", keywords: ["milk"], options: ["many", "much", "most", "more"], correct: 1, fbCorrect: "صحيح! milk غير معدود، لذا (much).", fbIncorrect: "إجابة خاطئة. milk غير معدود، لذا (much)." },
+
+        // ===== TOPIC 11: Prepositions of time and place =====
+        { topic: "11. Prepositions of time and place", text: "Put the books _____ the table.", keywords: ["the table"], options: ["in", "on", "at"], correct: 1, fbCorrect: "ممتاز! نستخدم (on) للأسطح مثل الطاولة.", fbIncorrect: "إجابة خاطئة. الكتب توضع فوق سطح الطاولة، لذا (on)." },
+        { topic: "11. Prepositions of time and place", text: "April comes _____ March.", keywords: ["April", "March"], options: ["before", "after"], correct: 1, fbCorrect: "صحيح! أبريل يأتي بعد مارس، لذا (after).", fbIncorrect: "إجابة خاطئة. أبريل يأتي بعد مارس، لذا (after)." },
+        { topic: "11. Prepositions of time and place", text: "July comes _____ June.", keywords: ["July", "June"], options: ["before", "next", "with", "after"], correct: 3, fbCorrect: "ممتاز! يوليو يأتي بعد يونيو، لذا (after).", fbIncorrect: "إجابة خاطئة. يوليو بعد يونيو، لذا (after)." },
+        { topic: "11. Prepositions of time and place", text: "Put your books _____ the cupboard.", keywords: ["cupboard"], options: ["from", "with", "to", "in"], correct: 3, fbCorrect: "صحيح! الخزانة مكان مغلق، لذا (in).", fbIncorrect: "إجابة خاطئة. الخزانة مكان مغلق، لذا (in)." },
+        { topic: "11. Prepositions of time and place", text: "Saturday is _____ Sunday.", keywords: ["Saturday", "Sunday"], options: ["every", "after", "before", "always"], correct: 2, fbCorrect: "ممتاز! السبت يأتي قبل الأحد، لذا (before).", fbIncorrect: "إجابة خاطئة. السبت قبل الأحد، لذا (before)." },
+        { topic: "11. Prepositions of time and place", text: "We eat meat _____ dinner.", keywords: ["dinner"], options: ["in", "to", "for", "on"], correct: 2, fbCorrect: "صحيح! نستخدم (for) للتعبير عن الغرض: meat for dinner.", fbIncorrect: "إجابة خاطئة. للتعبير عن 'من أجل' نستخدم (for)." },
+        { topic: "11. Prepositions of time and place", text: "Ali goes to school _____ Mondays.", keywords: ["Mondays"], options: ["in", "on", "at", "of"], correct: 1, fbCorrect: "ممتاز! مع أيام الأسبوع نستخدم (on).", fbIncorrect: "إجابة خاطئة. مع أيام الأسبوع نستخدم (on)." },
+
+        // ===== TOPIC 12: There is / There are =====
+        { topic: "12. There is / There are", text: "There _____ a book on the table.", keywords: ["a book"], options: ["were", "is", "does", "are"], correct: 1, fbCorrect: "صحيح! (a book) مفرد، لذا (There is).", fbIncorrect: "إجابة خاطئة. مع المفرد نستخدم (There is)." },
+
+        // ===== TOPIC 13: Adjectives, adverbs and linking words =====
+        { topic: "13. Adjectives, adverbs and linking words", text: "Omar's tall _____ strong.", keywords: ["tall", "strong"], options: ["and", "or", "but", "with"], correct: 0, fbCorrect: "ممتاز! نستخدم (and) لربط صفتين متشابهتين.", fbIncorrect: "إجابة خاطئة. لربط صفتين متشابهتين نستخدم (and)." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "\"What's the weather like in your country?\" \"It's _____.\"", keywords: ["weather"], options: ["cloud", "water", "rainy", "a blue sky"], correct: 2, fbCorrect: "صحيح! (rainy) صفة تصف الطقس.", fbIncorrect: "إجابة خاطئة. نحتاج صفة تصف الطقس: (rainy)." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "\"Is your car _____?\" \"Yes, I need to wash it.\"", keywords: ["wash it"], options: ["dirty", "fat", "clean", "lazy"], correct: 0, fbCorrect: "ممتاز! يحتاج غسيل، إذن هو وسخ (dirty).", fbIncorrect: "إجابة خاطئة. يحتاج غسيل، إذن (dirty)." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "Those mountains _____ high.", keywords: ["mountains", "high"], options: ["taste", "smell", "look", "feel"], correct: 2, fbCorrect: "صحيح! الجبال تُرى بالعين وتبدو عالية: (look).", fbIncorrect: "إجابة خاطئة. نصف الشكل الخارجي، لذا (look)." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "Abdulrahman was sick yesterday and today he's still at home because he doesn't feel _____.", keywords: ["sick", "still at home"], options: ["worse", "badly", "better", "bad"], correct: 2, fbCorrect: "ممتاز! لا يزال مريضاً، إذن لم يشعر بتحسن (better).", fbIncorrect: "إجابة خاطئة. لا يزال مريضاً، لذا (doesn't feel better)." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "Sam's car is not old. It is _____.", keywords: ["not old"], options: ["short", "tall", "new", "bad"], correct: 2, fbCorrect: "صحيح! عكس old هو new.", fbIncorrect: "إجابة خاطئة. عكس old هو new." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "Clint is a big man. He is _____.", keywords: ["big man"], options: ["tall", "new", "next", "last"], correct: 0, fbCorrect: "ممتاز! big man تعني طويل القامة (tall).", fbIncorrect: "إجابة خاطئة. big man تعني (tall)." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "What is the weather like in Jeddah?", keywords: ["weather", "Jeddah"], options: ["storm", "sunny", "wind", "rain"], correct: 1, fbCorrect: "صحيح! (sunny) صفة تصف الطقس.", fbIncorrect: "إجابة خاطئة. نحتاج صفة (sunny) وليس اسماً." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "How is the weather in your country?", keywords: ["weather"], options: ["storm", "water", "rainy", "cloud"], correct: 2, fbCorrect: "ممتاز! (rainy) صفة تصف الطقس.", fbIncorrect: "إجابة خاطئة. نحتاج صفة (rainy)." },
+
+        // ===== TOPIC 14: Modals and ability/advice =====
+        { topic: "14. Modals and ability/advice", text: "Ali _____ buy a car because he doesn't have any money.", keywords: ["doesn't have any money"], options: ["can", "can't", "is", "isn't"], correct: 1, fbCorrect: "صحيح! لا يملك مالاً، إذن لا يستطيع (can't).", fbIncorrect: "إجابة خاطئة. لا يملك مالاً، لذا (can't)." },
+        { topic: "14. Modals and ability/advice", text: "It is raining outside. You _____ your umbrella.", keywords: ["raining"], options: ["might", "could", "should", "have"], correct: 2, fbCorrect: "ممتاز! (should) للنصيحة: يجب أن تأخذ مظلتك.", fbIncorrect: "إجابة خاطئة. للنصيحة نستخدم (should)." },
+
+        // ===== TOPIC 15: Tag questions =====
+        { topic: "15. Tag questions", text: "\"Noura doesn't drive a car, _____ she?\"", keywords: ["doesn't drive"], options: ["doesn't", "is", "has", "does"], correct: 3, fbCorrect: "صحيح! الجملة سالبة (doesn't)، لذا العلامة موجبة (does).", fbIncorrect: "إجابة خاطئة. الجملة سالبة، لذا العلامة موجبة (does)." },
+        { topic: "15. Tag questions", text: "_____ my father works hard, _____?", keywords: ["works hard"], options: ["does he", "doesn't he", "did he", "didn't he"], correct: 1, fbCorrect: "ممتاز! الجملة موجبة (works)، لذا العلامة سالبة (doesn't he).", fbIncorrect: "إجابة خاطئة. الجملة موجبة في المضارع، لذا العلامة (doesn't he)." },
+
+        // ===== TOPIC 16: Superlatives =====
+        { topic: "16. Superlatives", text: "The _____ machine in the building.", keywords: ["The", "in the building"], options: ["most expensive", "will expensive", "the expensives", "expensived"], correct: 0, fbCorrect: "صحيح! الصفات الطويلة تأخذ (the most + adjective).", fbIncorrect: "إجابة خاطئة. الصفة الطويلة تأخذ (the most expensive)." },
+        { topic: "16. Superlatives", text: "The _____ machine in the building.", keywords: ["The", "in the building"], options: ["most expensive", "will expensive", "the expensives", "expensived"], correct: 0, fbCorrect: "ممتاز! للتعبير عن 'الأغلى' نستخدم (the most expensive).", fbIncorrect: "إجابة خاطئة. الصحيح (most expensive) للتعبير عن التفضيل الأعلى." },
+
+        // ===== TOPIC 17: Vocabulary and everyday language =====
+        { topic: "17. Vocabulary and everyday language", text: "What is the weather like in your country?", keywords: ["weather"], options: ["A blue sky", "Rainy"], correct: 1, fbCorrect: "صحيح! (Rainy) صفة تصف الطقس.", fbIncorrect: "إجابة خاطئة. نحتاج صفة (Rainy)." },
+        { topic: "17. Vocabulary and everyday language", text: "Is Riyadh a city?", keywords: ["Riyadh"], options: ["No, it is a country.", "Yes, it is a city."], correct: 1, fbCorrect: "ممتاز! الرياض مدينة في السعودية.", fbIncorrect: "إجابة خاطئة. الرياض مدينة، لذا (Yes, it is a city)." },
+        { topic: "17. Vocabulary and everyday language", text: "Where can I buy some medicine?", keywords: ["medicine"], options: ["In a bank.", "In a bookshop.", "In a pharmacy.", "In a clothes shop."], correct: 2, fbCorrect: "صحيح! الدواء يُشترى من الصيدلية (pharmacy).", fbIncorrect: "إجابة خاطئة. الدواء من الصيدلية (pharmacy)." },
+        { topic: "17. Vocabulary and everyday language", text: "What's that?", keywords: ["What"], options: ["It's Ali.", "It's here.", "It's a pencil.", "It's on the shelf."], correct: 2, fbCorrect: "ممتاز! (What's that) يسأل عن الشيء، والإجابة (It's a pencil).", fbIncorrect: "إجابة خاطئة. (What's that) يسأل عن الشيء، لذا (It's a pencil)." },
+        { topic: "17. Vocabulary and everyday language", text: "You can wear this.", keywords: ["wear"], options: ["a junction", "a journey", "a jack", "a jacket"], correct: 3, fbCorrect: "صحيح! (jacket) شيء يمكن لبسه.", fbIncorrect: "إجابة خاطئة. (jacket) هو الشيء الذي يُلبس." },
+        { topic: "17. Vocabulary and everyday language", text: "Takahashi is Japanese. Where's he from?", keywords: ["Japanese"], options: ["He's from London.", "He's from Tokyo.", "He's from Madrid.", "He's from New York."], correct: 1, fbCorrect: "ممتاز! الياباني من طوكيو (Tokyo).", fbIncorrect: "إجابة خاطئة. الياباني من طوكيو." },
+        { topic: "17. Vocabulary and everyday language", text: "Omar sits behind Talal. Where does Talal sit?", keywords: ["behind"], options: ["In front of Omar.", "Behind Omar.", "Below Omar.", "Opposite Omar."], correct: 0, fbCorrect: "صحيح! إذا كان عمر خلف طلال، فطلال أمام عمر.", fbIncorrect: "إجابة خاطئة. العكس من behind هو in front of." },
+        { topic: "17. Vocabulary and everyday language", text: "Mohammed is Noura's husband.", keywords: ["husband"], options: ["Noura is Mohammed's wife.", "Noura is Mohammed's sister.", "Noura is Mohammed's daughter.", "Noura is Mohammed's aunt."], correct: 0, fbCorrect: "ممتاز! زوج = زوجة (wife).", fbIncorrect: "إجابة خاطئة. husband يقابله wife." },
+        { topic: "17. Vocabulary and everyday language", text: "At home we sleep in the _____.", keywords: ["sleep"], options: ["bedroom", "bathroom", "living room", "kitchen"], correct: 0, fbCorrect: "صحيح! ننام في غرفة النوم (bedroom).", fbIncorrect: "إجابة خاطئة. ننام في (bedroom)." },
+        { topic: "17. Vocabulary and everyday language", text: "Nancy's _____ is Venezuela.", keywords: ["Venezezuela"], options: ["August", "enlisted", "Canada", "country"], correct: 3, fbCorrect: "ممتاز! فنزويلا دولة (country).", fbIncorrect: "إجابة خاطئة. فنزويلا دولة، لذا (country)." },
+        { topic: "17. Vocabulary and everyday language", text: "You can start a car (vehicle) by using a _____.", keywords: ["start a car"], options: ["light", "jacket", "button"], correct: 2, fbCorrect: "صحيح! نبدأ السيارة بالزر (button).", fbIncorrect: "إجابة خاطئة. نبدأ السيارة بـ (button)." },
+        { topic: "17. Vocabulary and everyday language", text: "Sara is Mona's mother.", keywords: ["mother"], options: ["Mona is Sara's son.", "Mona is Sara's aunt.", "Mona is Sara's mother.", "Mona is Sara's daughter."], correct: 3, fbCorrect: "ممتاز! إذا كانت سارة أم موناً، فإن موناً ابنتها (daughter).", fbIncorrect: "إجابة خاطئة. الأم تقابلها الابنة (daughter)." },
+        { topic: "17. Vocabulary and everyday language", text: "Let's talk to that man. He is a _____.", keywords: ["man"], options: ["woman", "person", "animal", "people"], correct: 1, fbCorrect: "صحيح! man = person (شخص).", fbIncorrect: "إجابة خاطئة. man يكافئ person." },
+
+        // ===== TOPIC 18: Numbers, dates, time and calendar =====
+        { topic: "18. Numbers, dates, time and calendar", text: "How do you write four hundred and sixty-seven in figures?", keywords: ["four hundred and sixty-seven"], options: ["456", "467", "476", "446"], correct: 1, fbCorrect: "ممتاز! 400 + 60 + 7 = 467.", fbIncorrect: "إجابة خاطئة. 400 + 60 + 7 = 467." },
+        { topic: "18. Numbers, dates, time and calendar", text: "Tomorrow is Thursday. What day is it today?", keywords: ["Thursday"], options: ["Monday", "Sunday", "Friday", "Wednesday"], correct: 3, fbCorrect: "صحيح! قبل الخميس هو الأربعاء (Wednesday).", fbIncorrect: "إجابة خاطئة. قبل الخميس هو الأربعاء." },
+        { topic: "18. Numbers, dates, time and calendar", text: "K l m n o _____.", keywords: ["K l m n o"], options: ["p r q", "p q r", "q r p", "q p r"], correct: 1, fbCorrect: "ممتاز! الترتيب الأبجدي: p q r.", fbIncorrect: "إجابة خاطئة. الترتيب الأبجدي بعد o هو p q r." },
+        { topic: "18. Numbers, dates, time and calendar", text: "How do you write three hundred and forty-three in figures?", keywords: ["three hundred and forty-three"], options: ["334", "443", "343", "434"], correct: 2, fbCorrect: "صحيح! 300 + 40 + 3 = 343.", fbIncorrect: "إجابة خاطئة. 300 + 40 + 3 = 343." },
+        { topic: "18. Numbers, dates, time and calendar", text: "The school starts in fall, that is in _____.", keywords: ["fall"], options: ["January", "April", "September", "summer"], correct: 2, fbCorrect: "ممتاز! فصل الخريف يبدأ في سبتمبر.", fbIncorrect: "إجابة خاطئة. الخريف يبدأ في سبتمبر (September)." },
+
+        // ===== TOPIC 19: Sentence order and basic word forms =====
+        { topic: "19. Sentence order and basic word forms", text: "How many _____?", keywords: ["How many"], options: ["do you have pencils", "pencils have you do", "you do have pencils", "pencils do you have"], correct: 3, fbCorrect: "صحيح! الترتيب: How many + اسم + do + subject + verb.", fbIncorrect: "إجابة خاطئة. الترتيب الصحيح: How many pencils do you have?" },
+        { topic: "19. Sentence order and basic word forms", text: "I want _____ lunch.", keywords: ["want"], options: ["to eat", "is eating", "eat", "eats"], correct: 0, fbCorrect: "ممتاز! بعد want نستخدم (to + المصدر).", fbIncorrect: "إجابة خاطئة. بعد want نستخدم (to + المصدر)." },
+        { topic: "19. Sentence order and basic word forms", text: "The _____.", keywords: ["The"], options: ["happy children are", "children are happy", "happy are children", "children happy are"], correct: 1, fbCorrect: "صحيح! الترتيب: فاعل + فعل + صفة.", fbIncorrect: "إجابة خاطئة. الترتيب الصحيح: children are happy." },
+        { topic: "19. Sentence order and basic word forms", text: "Sue doesn't want _____ the book.", keywords: ["want"], options: ["read", "is reading", "to read", "reads"], correct: 2, fbCorrect: "ممتاز! بعد want نستخدم (to + المصدر).", fbIncorrect: "إجابة خاطئة. بعد want نستخدم (to read)." },
+        { topic: "19. Sentence order and basic word forms", text: "Fahad _____ needs fixing?", keywords: ["needs fixing"], options: ["tells that the car", "tells the car", "tells us the car", "tells that us car"], correct: 2, fbCorrect: "صحيح! الترتيب: tell + indirect object + direct object.", fbIncorrect: "إجابة خاطئة. الترتيب الصحيح: tells us the car." },
+        { topic: "19. Sentence order and basic word forms", text: "The student completed _____ the homework?", keywords: ["completed"], options: ["writes", "to write", "wrote", "writing"], correct: 3, fbCorrect: "ممتاز! بعد completed (فعل منتهي) نستخدم gerund (writing).", fbIncorrect: "إجابة خاطئة. بعد completed نستخدم (writing)." },
+
+        // ===== Additional vocabulary and mixed =====
+        { topic: "17. Vocabulary and everyday language", text: "What is his name?", keywords: ["name"], options: ["He's fine, thanks.", "It's Omar.", "Yes, it's his name.", "It's a family."], correct: 1, fbCorrect: "صحيح! السؤال عن الاسم، والإجابة (It's Omar).", fbIncorrect: "إجابة خاطئة. السؤال عن الاسم، لذا (It's Omar)." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "Don't sit on that table. _____ dirty.", keywords: ["dirty"], options: ["Its", "It's", "It", "It has"], correct: 1, fbCorrect: "ممتاز! نحتاج فاعل + فعل: It is → It's.", fbIncorrect: "إجابة خاطئة. نحتاج (It's) أي (It is)." },
+        { topic: "17. Vocabulary and everyday language", text: "Who's he? — He is _____.", keywords: ["Who"], options: ["Ali's", "Ali'", "Ali", "Alis"], correct: 2, fbCorrect: "صحيح! السؤال عن الهوية، والإجابة (Ali).", fbIncorrect: "إجابة خاطئة. السؤال عن الهوية، لذا (Ali)." },
+        { topic: "17. Vocabulary and everyday language", text: "Whose car is it?", keywords: ["Whose"], options: ["It's Ali's car.", "It is Ali.", "He is Ali.", "Ali"], correct: 0, fbCorrect: "ممتاز! (Whose) يسأل عن الملكية، والإجابة (Ali's car).", fbIncorrect: "إجابة خاطئة. (Whose) يسأل عن الملكية، لذا (Ali's car)." },
+        { topic: "18. Numbers, dates, time and calendar", text: "My books are _____ on my desk.", keywords: ["on my desk"], options: ["late", "short", "here", "before"], correct: 2, fbCorrect: "صحيح! (here) تعني 'هنا' على المكتب.", fbIncorrect: "إجابة خاطئة. (here) تعني 'هنا'." },
+        { topic: "7. Questions and question words", text: "How _____ is this table? — It is 300 Riyals.", keywords: ["300 Riyals"], options: ["much", "tall", "long", "many"], correct: 0, fbCorrect: "ممتاز! الريالات سعر، لذا (How much).", fbIncorrect: "إجابة خاطئة. الريالات سعر، لذا (How much)." },
+        { topic: "17. Vocabulary and everyday language", text: "He is _____ TV.", keywords: ["TV"], options: ["watching", "watches", "watch", "—"], correct: 0, fbCorrect: "صحيح! (watching TV) مشاهدة التلفاز.", fbIncorrect: "إجابة خاطئة. نستخدم (watching TV)." },
+        { topic: "4. Past simple", text: "Hend _____ to Jeddah two days ago.", keywords: ["two days ago"], options: ["flies", "flying", "flew", "to fly"], correct: 2, fbCorrect: "ممتاز! الماضي من fly هو flew.", fbIncorrect: "إجابة خاطئة. الماضي من fly هو flew." },
+        { topic: "13. Adjectives, adverbs and linking words", text: "How is the weather in your country?", keywords: ["weather"], options: ["storm", "water", "rainy", "cloud"], correct: 2, fbCorrect: "صحيح! (rainy) صفة تصف الطقس.", fbIncorrect: "إجابة خاطئة. نحتاج صفة (rainy)." }
+    ];
+
+    // ============ RENDER ============
+    const quizContainer = document.getElementById('quiz-container');
+    const topicList = document.getElementById('topic-list');
+    let currentTopic = "";
+    let topicIndex = 0;
+
+    quizData.forEach((q, index) => {
+        if (q.topic !== currentTopic) {
+            currentTopic = q.topic;
+            topicIndex++;
+            
+            // Add to nav
+            const navItem = document.createElement('li');
+            navItem.innerHTML = `<a href="#topic-${topicIndex}">${currentTopic}</a>`;
+            topicList.appendChild(navItem);
+
+            const section = document.createElement('div');
+            section.className = 'topic-section';
+            section.id = `topic-${topicIndex}`;
+            const summaryText = topicSummaries[currentTopic] || "";
+            section.innerHTML = `
+                <h2 class="topic-title">${currentTopic}</h2>
+                ${summaryText ? `<div class="topic-summary">${summaryText}</div>` : ''}
+            `;
+            quizContainer.appendChild(section);
+        }
+
+        const section = quizContainer.lastChild;
+        const bgClass = `bg-${(index % 6) + 1}`;
+        
+        let highlightedText = q.text;
+        q.keywords.forEach(kw => {
+            const regex = new RegExp(`(${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            highlightedText = highlightedText.replace(regex, '<span class="keyword">$1</span>');
+        });
+
+        let optionsHtml = q.options.map((opt, i) => `
+            <label class="option-label">
+                <input type="radio" name="q${index}" value="${i}">
+                <span>${opt}</span>
+            </label>
+        `).join('');
+
+        const qBox = document.createElement('div');
+        qBox.className = `q-box ${bgClass}`;
+        qBox.innerHTML = `
+            <div class="q-text">${index + 1}. ${highlightedText}</div>
+            <div class="options">${optionsHtml}</div>
+            <button class="check-btn" onclick="checkAnswer(${index})">Check Answer | تحقق</button>
+            <div class="feedback" id="feedback-${index}"></div>
+        `;
+        section.appendChild(qBox);
+    });
+
+    // ============ CHECK ANSWER ============
+    let answeredQuestions = new Set();
+    let correctCount = 0;
+
+    function checkAnswer(index) {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const feedbackDiv = document.getElementById(`feedback-${index}`);
+        
+        if (!selected) {
+            alert("Please select an answer first! | الرجاء اختيار إجابة أولاً");
+            return;
+        }
+
+        const q = quizData[index];
+        const isCorrect = parseInt(selected.value) === q.correct;
+        
+        feedbackDiv.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+        
+        if (isCorrect) {
+            feedbackDiv.innerHTML = `<strong>✅ Correct! | إجابة صحيحة</strong>${q.fbCorrect}`;
+            if (!answeredQuestions.has(index)) correctCount++;
+        } else {
+            const correctOption = q.options[q.correct];
+            feedbackDiv.innerHTML = `<strong>❌ Incorrect. | إجابة خاطئة.</strong> ${q.fbIncorrect}<br><em>The correct answer is: <strong>${correctOption}</strong></em>`;
+        }
+
+        answeredQuestions.add(index);
+        
+        // Show floating summary button when all answered
+        if (answeredQuestions.size === quizData.length) {
+            showSummary();
+        } else if (answeredQuestions.size >= 5) {
+            document.getElementById('floating-summary').style.display = 'block';
+        }
+    }
+
+    // ============ SUMMARY ============
+    function showSummary() {
+        const summarySection = document.getElementById('summary-section');
+        const scoreText = document.getElementById('score-text');
+        const scoreCircle = document.getElementById('score-circle');
+        const summaryMsg = document.getElementById('summary-msg');
+
+        const percentage = Math.round((correctCount / quizData.length) * 100);
+        scoreText.textContent = `${correctCount}/${quizData.length}`;
+        scoreCircle.style.setProperty('--progress', `${percentage * 3.6}deg`);
+
+        let msg = "";
+        if (percentage === 100) msg = "🏆 ممتاز! أداء مثالي، أنت متمكن من جميع المواضيع. | Excellent! Perfect score!";
+        else if (percentage >= 80) msg = "🌟 جيد جداً! عمل رائع، راجع بعض النقاط البسيطة. | Very good! Review a few minor points.";
+        else if (percentage >= 50) msg = "📘 جيد! تحتاج إلى مراجعة بعض القواعد والمفردات. | Good! Review some grammar and vocabulary.";
+        else msg = "💪 تحتاج إلى مراجعة شاملة. لا تيأس، المحاولة طريق النجاح! | Keep practicing!";
+
+        summaryMsg.innerHTML = msg + `<br><br><strong>Percentage | النسبة: ${percentage}%</strong>`;
+        summarySection.style.display = 'block';
+        document.getElementById('floating-summary').style.display = 'block';
+        summarySection.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
